@@ -13,4 +13,7 @@ export class StudentService {
   getAllStudent(): Observable<Student[]>{
     return this.HttpClient.get<Student[]>(this.baseApiUrl + '/Student');
   }
+  getStudent(studentId:string) : Observable<Student>{
+    return this.HttpClient.get<Student>(this.baseApiUrl+ "/student/" + studentId)
+  }
 }

@@ -50,13 +50,15 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { TopNavComponent } from './top-nav/top-nav/top-nav.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ViewStudentComponent } from './students/view-student/view-student.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     TopNavComponent,
-    StudentsComponent
+    StudentsComponent,
+    ViewStudentComponent
   ],
   imports: [
     FormsModule,

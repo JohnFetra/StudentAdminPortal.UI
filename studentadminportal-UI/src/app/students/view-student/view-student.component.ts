@@ -55,15 +55,12 @@ export class ViewStudentComponent implements OnInit {
           }else{
             this.isNewStudent = false;
             this.header = "Edit Student";
-
+            this.studentService.getStudent(this.studentId).subscribe({
+              next: (successResponse) =>{
+                this.student = successResponse;
+              }
+            });
           }
-
-          this.studentService.getStudent(this.studentId).subscribe({
-            next: (successResponse) =>{
-              this.student = successResponse;
-            }
-          });
-
           this.genderService.getAllGender().subscribe({
             next : (successResponseGender) =>{
               this.genderList= successResponseGender;

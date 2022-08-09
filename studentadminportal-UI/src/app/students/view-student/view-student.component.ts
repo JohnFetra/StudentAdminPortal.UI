@@ -34,6 +34,9 @@ export class ViewStudentComponent implements OnInit {
   }
   genderList : Gender[] = [];
 
+  isNewStudent = false;
+  header = '';
+
   constructor(private readonly studentService:StudentService,
               private readonly route : ActivatedRoute,
               private readonly genderService:GenderService,
@@ -45,6 +48,16 @@ export class ViewStudentComponent implements OnInit {
       next: (successResponse) =>{
         this.studentId=successResponse.get('id');
         if(this.studentId){
+
+          if(this.studentId.toLowerCase() === 'Add'.toLowerCase()){
+            this.isNewStudent = true;
+            this.header = "Add New Student";
+          }else{
+            this.isNewStudent = false;
+            this.header = "Edit Student";
+
+          }
+
           this.studentService.getStudent(this.studentId).subscribe({
             next: (successResponse) =>{
               this.student = successResponse;
@@ -67,12 +80,12 @@ export class ViewStudentComponent implements OnInit {
   onUpdate():void{
     this.studentService.updateStudent(this.student.id,this.student)
     .subscribe({
-      next: (successResponse) =>{
+      next: () =>{
         this.snackBar.open("Update successfully ",undefined, {
           duration:2000
         });
       },
-      error: (errorResponse) =>{
+      error: () =>{
         this.snackBar.open("Failed to Update",undefined,{
           duration: 2000
         });
@@ -85,7 +98,7 @@ export class ViewStudentComponent implements OnInit {
   onDelete():void{
     this.studentService.deleteStudent(this.student.id)
     .subscribe({
-      next:(successResponse)=>{
+      next:()=>{
         this.snackBar.open("Delete Successfully",undefined,{
           duration: 2000
         })
@@ -93,10 +106,31 @@ export class ViewStudentComponent implements OnInit {
           this.router.navigateByUrl('students');
         },2000)
       },
-      error:(errorResponse)=>{
+      error:()=>{
         this.snackBar.open("Failed to Delete",undefined,{
           duration:2000
         })
+      }
+    })
+  }
+  onAdd():void{
+    this.studentService.addStudent(this.student)
+    .subscribe({
+      next: (successResponse)=>{
+        this.snackBar.open("Add successfully ",undefined, {
+          duration:2000
+        });
+        setTimeout(()=>{
+          this.router.navigateByUrl(`students/ ${successResponse.id}`);
+        },2000)
+      },
+      error: (errorResponse) =>{
+        this.snackBar.open("Add Failed",undefined,{
+          duration: 2000
+        });
+      },
+      complete: () =>{
+        console.info('complete')
       }
     })
   }

@@ -2,7 +2,7 @@ table{
   width: 100%;
 }
 .mt-1 {
-  margin-top: 1em;
+  margin-top: 1em !important;
 }
 .search-input{
   outline: none;

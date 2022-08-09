@@ -8,8 +8,8 @@
     <div class="col-xs-12">
       <input type="text" class="search-input" placeholder="Search Students"
       [(ngModel)]="filterString"
-      (keyup)="filterStudents()"
-      >
+      (keyup)="filterStudents()">
+      <a routerLink="/students/Add" mat-raised-button class="ml-1" color="primary"> Add New</a>
     </div>
   </div>
   <div class="mt-1 mat-elevation-z8">

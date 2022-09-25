@@ -50,4 +50,16 @@ export class StudentService {
     }
     return this.HttpClient.post<Student>(this.baseApiUrl + "/Student/add", addStudentRequest);
   }
+  uploadImage(studentId:string,file: File):Observable<any>{
+    const formData = new FormData();
+    formData.append("profileImage",file);
+    return this.HttpClient.post(this.baseApiUrl + "/student/" + studentId + "/upload-image",
+    formData,{
+      responseType: 'text'
+    }
+    )
+  }
+  getImagePath(relativePath : string){
+    return `${this.baseApiUrl}/${relativePath}`;
+  }
 }

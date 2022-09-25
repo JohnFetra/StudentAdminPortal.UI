@@ -36,6 +36,7 @@ export class ViewStudentComponent implements OnInit {
 
   isNewStudent = false;
   header = '';
+  displayProfileImageUrl = '';
 
   constructor(private readonly studentService:StudentService,
               private readonly route : ActivatedRoute,
@@ -52,12 +53,18 @@ export class ViewStudentComponent implements OnInit {
           if(this.studentId.toLowerCase() === 'Add'.toLowerCase()){
             this.isNewStudent = true;
             this.header = "Add New Student";
+            this.setImage();
           }else{
             this.isNewStudent = false;
             this.header = "Edit Student";
-            this.studentService.getStudent(this.studentId).subscribe({
+            this.studentService.getStudent(this.studentId)
+            .subscribe({
               next: (successResponse) =>{
                 this.student = successResponse;
+                this.setImage();
+              },
+              error:()=>{
+                this.setImage();
               }
             });
           }
@@ -130,6 +137,40 @@ export class ViewStudentComponent implements OnInit {
         console.info('complete')
       }
     })
+  }
+
+  uploadImage(event:any):void{
+    if(this.studentId){
+      const file:File = event.target.files[0];
+      this.studentService.uploadImage(this.student.id,file)
+      .subscribe({
+        next: (succesResponse)=>{
+          console.log("ito",succesResponse)
+            this.student.profileImageUrl= succesResponse;
+            this.setImage();
+
+            this.snackBar.open("Image Updated",undefined, {
+              duration:2000
+            });
+        },
+        error:(errorResponse)=>{
+
+          this.snackBar.open("Failed to Update ",undefined, {
+            duration:2000
+          });
+        }
+
+      })
+    }
+
+  }
+
+  private setImage():void{
+    if(this.student.profileImageUrl){
+      this.displayProfileImageUrl=this.studentService.getImagePath(this.student.profileImageUrl);
+    }else{
+      this.displayProfileImageUrl='/assets/images.png';
+    }
   }
 
 }

@@ -56,7 +56,7 @@
           <div class="col-xs-6">
             <mat-form-field appearance="outline">
               <mat-label>Email</mat-label>
-              <input type="text" matInput [(ngModel)]="student.email" name="email">
+              <input type="email" matInput [(ngModel)]="student.email" name="email" [email]="true">
             </mat-form-field>
           </div>
 
@@ -122,11 +122,21 @@
         </div>
       </form>
     </div>
-  </div>
 
 
-  <div class="row">
-    <!-- Profiles Images -->
-    <div class="col-xs-6"></div>
+    <div class="col-xs-6">
+      <div class="row center-xs">
+        <div class="image-container">
+          <img [src]="displayProfileImageUrl" alt="Profile Image">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 row center-xs" *ngIf="!isNewStudent">
+          <input hidden type="file" #imageUpload (change)="uploadImage($event)" >
+          <button mat-raised-button color="primary" (click)="imageUpload.click()"> Change Image</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
